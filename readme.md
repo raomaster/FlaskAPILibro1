@@ -6,14 +6,24 @@ crear un entorno de python
 
 Activar enviroment
 
-MAC
+MAC:
 
     source Flask/bin/activate
 
-WIN
+WIN:
 
     ./Flask/Scripts/activate.bat
 
-PowerShell
+PowerShell:
 
     ./Flask/Scripts/activate.ps1
+
+
+Instala FlaskRESTful:
+
+    pip install Flask-RESTful
+
+
+Correr la aplicación: 
+
+    python code/app.py run
