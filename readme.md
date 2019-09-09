@@ -23,6 +23,9 @@ Instala FlaskRESTful:
 
     pip install Flask-RESTful
 
+instalar flask_JWT
+
+    pip install Flask-JWT
 
 Correr la aplicación: 
 
