@@ -13,6 +13,13 @@ jwt = JWT(app, authenticate, identity)
 items = []
 
 class Item(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('price',
+        type=float,
+        required=True,
+        help="esta campo no puede venir en blanco"
+    )
+
     @jwt_required()
     def get(self, name):
         item = next(filter(lambda x: x['name'] == name, items), None)
@@ -22,7 +29,8 @@ class Item(Resource):
         if next(filter(lambda x: x['name'] == name, items), None) is not None:
             return {'message' : "Un item con el nombre '{}' ya existe.".format(name)}, 400
         
-        data = request.get_json(force = True) # silent=Tue
+        data = Item.parser.parse_args() # refactorizada la forma de leer los datos del request (Item es el nombre de la clase)
+
         item = {'name': name, 'price': data['price']}
         items.append(item)
         return item, 201
@@ -33,14 +41,8 @@ class Item(Resource):
         return {'message': 'item eliminado'}
 
     def put(self, name):
-        parser = reqparse.RequestParser()
-        parser.add_argument('price',
-            type=float,
-            required=True,
-            help="esta campo no puede venir en blanco"
-        )
-        data = parser.parse_args()
-        
+        data = Item.parser.parse_args()
+
         item = next(filter(lambda x: x['name'] == name, items), None)
         if item is None:
             item = {'name': name, 'price': data['price'] }
